@@ -17,13 +17,18 @@ public class TicTacToeApp {
         performToss();
         printBoard();
 
-        int slot = getUserInput();   // UC3
+        int slot = getUserInput();          // UC3
+        int[] pos = convertSlotToIndex(slot); // UC4
 
-        int[] position = convertSlotToIndex(slot);  // 🎯 UC4
-        int row = position[0];
-        int col = position[1];
+        int row = pos[0];
+        int col = pos[1];
 
-        System.out.println("Converted Position → Row: " + row + ", Column: " + col);
+        // 🎯 UC5: Validate move
+        if (isValidMove(row, col)) {
+            System.out.println("Move is valid.");
+        } else {
+            System.out.println("Invalid move. Try again.");
+        }
     }
 
     // UC1
@@ -71,15 +76,27 @@ public class TicTacToeApp {
         return scanner.nextInt();
     }
 
-    // 🎯 UC4: Convert slot to row & column (0-based)
+    // UC4
     static int[] convertSlotToIndex(int slot) {
-
-        // Convert 1–9 → 0–8 first
         int index = slot - 1;
-
-        int row = index / 3;   // division → row
-        int col = index % 3;   // modulo → column
-
+        int row = index / 3;
+        int col = index % 3;
         return new int[]{row, col};
+    }
+
+    // 🎯 UC5: Validate row/col and empty cell
+    static boolean isValidMove(int row, int col) {
+
+        // Boundary check (0–2)
+        if (row < 0 || row > 2 || col < 0 || col > 2) {
+            return false;
+        }
+
+        // Cell must be empty
+        if (board[row][col] != '-') {
+            return false;
+        }
+
+        return true;
     }
 }
