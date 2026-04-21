@@ -17,8 +17,13 @@ public class TicTacToeApp {
         performToss();
         printBoard();
 
-        int slot = getUserInput();   // 🔹 UC3
-        System.out.println("You selected slot: " + slot);
+        int slot = getUserInput();   // UC3
+
+        int[] position = convertSlotToIndex(slot);  // 🎯 UC4
+        int row = position[0];
+        int col = position[1];
+
+        System.out.println("Converted Position → Row: " + row + ", Column: " + col);
     }
 
     // UC1
@@ -60,12 +65,21 @@ public class TicTacToeApp {
         System.out.println("Player 2 Symbol: " + player2Symbol);
     }
 
-    // 🎯 UC3: Get user slot input
+    // UC3
     static int getUserInput() {
-
         System.out.print("Enter a slot number (1-9): ");
-        int slot = scanner.nextInt();
+        return scanner.nextInt();
+    }
 
-        return slot;   // requirement: return the value
+    // 🎯 UC4: Convert slot to row & column (0-based)
+    static int[] convertSlotToIndex(int slot) {
+
+        // Convert 1–9 → 0–8 first
+        int index = slot - 1;
+
+        int row = index / 3;   // division → row
+        int col = index % 3;   // modulo → column
+
+        return new int[]{row, col};
     }
 }
