@@ -13,8 +13,6 @@
 # Build folders
 .idea/
 target/
-bin/
-doc/
 out/
 build/
 dist/
